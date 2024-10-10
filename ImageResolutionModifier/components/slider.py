@@ -3,21 +3,6 @@ import pygame
 class Slider:
     
     def __init__(self, bg, slider_color, text_color, font, min_val, max_val, value=0, text="", size=(200, 40), pos=(0, 0)):
-        """
-        Initialize a new Slider instance.
-
-        Args:
-            bg (tuple): The background color of the slider.
-            slider_color (tuple): The color of the slider.
-            text_color (tuple): The color of the text.
-            font (pygame.font.Font): The font to use for the text.
-            min_val (int): The minimum value of the slider.
-            max_val (int): The maximum value of the slider.
-            value (int): The initial value of the slider.
-            text (str): The text to display on the slider.
-            size (tuple): The size of the slider.
-            pos (tuple): The initial position of the slider.
-        """
         self.slider_color = slider_color
         self.bg_color = bg
         self.text_color = text_color
@@ -49,7 +34,7 @@ class Slider:
     # Set slider text
     def setText(self, text):
         self.text = text
-
+        
     # Get the slider's value ratio between min and max
     def getRatio(self):
         return (self.value - self.min_val) / (self.max_val - self.min_val)

@@ -2,18 +2,6 @@ import pygame
 # Button class for creating interactive buttons
 class Button:
     def __init__(self, bg, hover_color, text_color, font, text, size=(200, 40), pos=(0, 0)):
-        """
-        Initialize a new Button instance.
-
-        Args:
-            bg (tuple): The background color of the button.
-            hover_color (tuple): The color of the button when the mouse is over it.
-            text_color (tuple): The color of the text.
-            font (pygame.font.Font): The font to use for the text.
-            text (str): The text to display on the button.
-            size (tuple): The size of the button.
-            pos (tuple): The initial position of the button.
-        """
         self.bg_color = bg
         self.hover_color = hover_color
         self.text_color = text_color

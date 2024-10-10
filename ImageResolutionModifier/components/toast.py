@@ -1,6 +1,7 @@
 # Toast class for displaying temporary messages on screen
 import time
 import pygame
+
 class Toast:
     def __init__(self, msg, font, duration_secs, text_color=(255, 255, 255), bg_color=(0, 0, 0)):
         self.msg = msg

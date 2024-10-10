@@ -13,10 +13,7 @@ from components.toast import Toast
 
 # Validate img path and file type
 def is_valid_img_path(im_path):
-    return os.path.exists(im_path) and os.path.isfile(im_path) and os.path.splitext(im_path)[1].lower() in [".png",
-                                                                                                            ".jpeg",
-                                                                                                            ".jpg",
-                                                                                                            ".webp"]
+    return os.path.exists(im_path) and os.path.isfile(im_path) and os.path.splitext(im_path)[1].lower() in [".png",".jpeg",".jpg",".webp"]
 
 
 # Format byte size to human-readable format
@@ -28,7 +25,6 @@ def format_byte_count(size_bytes):
     p = math.pow(1024, i)
     s = round(size_bytes / p, 2)
     return "%s %s" % (s, size_name[i])
-
 
 # Main application class
 class ImageQualityModifier:
@@ -188,7 +184,7 @@ class ImageQualityModifier:
         try:
             if is_valid_img_path(path):
                 self.img_path = path
-                # make
+                # adds modified_ as suffix for the name the img will be saved as
                 self.modified_img_path = os.path.join(os.path.dirname(self.img_path),
                                                       'modified_' + os.path.basename(self.img_path))
 
@@ -279,8 +275,7 @@ class ImageQualityModifier:
         t1 = time.time_ns()
         stop = False
 
-        # FPS = 60
-        # time_accumulated = 0
+        # the game loop
         while not stop:
             for e in event.get():
                 if e.type == pygame.QUIT:
@@ -297,12 +292,10 @@ class ImageQualityModifier:
             t1 = t2
 
 
-if __name__ == "__main__":
-    try:
+try:
 
-        print(
-            "----------------------------Running ImageQualityModifier--------------------------------")
-        ImageQualityModifier().loop()
+    print("----------------------------Running ImageQualityModifier--------------------------------")
+    ImageQualityModifier().loop()
 
-    except Exception as e:
-        print("Error occurred: " + str(e))
+except Exception as e:
+    print("Error occurred: " + str(e))
