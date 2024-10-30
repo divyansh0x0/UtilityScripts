@@ -73,7 +73,7 @@ class ImageQualityModifier:
         save_btn_pos = self.screen.get_width() - 100 - self.pad, self.screen.get_height() - 40 - self.pad
         self.save_btn = Button((75, 104, 250), (88, 116, 252), (0, 0, 0), self.font, "Save",
                                (100, 40), save_btn_pos)
-        self.toast = Toast("Drag an img here", self.font, 3, (255, 255, 255), (0, 0, 0))
+        self.toast = Toast("Drag an image here", self.font, 5, (255, 255, 255), (0, 0, 0))
         self.resolution_slider = Slider((100, 100, 100), (190, 190, 190), (0, 0, 0), self.font, 1, 100, 100,"Quality:100%")
 
         # show "Drag an image here" message on app launch
@@ -95,39 +95,38 @@ class ImageQualityModifier:
         # update save button position
         self.save_btn.setPos(self.resolution_slider.pos[0] + self.resolution_slider.size[0] + 10,
                              self.resolution_slider.pos[1])
-
+        #check if mouse is on slider
         if self.resolution_slider.containsPoint(mouse_pos[0], mouse_pos[1]) or self.is_dragging_on_slider:
-            # initialVal = None
             if pygame.mouse.get_pressed()[0]:
-                # self.resolution_slider.value
-                # add dragging functionality
+                # if mouse is on slider and left mouse button is pressed
+                # then set is_dragging_on_slider to True and set the value of the slider based on position of
+                # mouse on slider
                 ratio = (mouse_pos[0] - self.resolution_slider.pos[0]) / self.resolution_slider.size[0]
                 self.resolution_slider.setValueRatio(ratio)
                 self.is_dragging_on_slider = True
             else:
+                # if user was dragging on slider and has released the left mouse button then 
+                # update the image size based on value of slider
                 if self.is_dragging_on_slider and self.active_img_surface is not None:
                     ratio = self.resolution_slider.value / self.resolution_slider.max_val
-                    print(ratio)
-                    self.new_img_res = (
-                        int(self.img_original_res[0] * ratio), int(self.img_original_res[1] * ratio))
-
-                    # self.reloadImage(self.imgPath)
+                    self.new_img_res = (int(self.img_original_res[0] * ratio), int(self.img_original_res[1] * ratio))
                     self.active_img_surface = transform.scale(self.original_img_surface, self.new_img_res)
+                    # save the image in a bytes array so that its size can be calculated by getting the length of bytes array
                     bytes_arr = io.BytesIO()
                     image.save(self.active_img_surface, bytes_arr, self.img_extension)
+                    # updates the size of image 
                     self.img_information["Size"] = (format_byte_count(len(bytes_arr.getvalue())))
-
+                    # scales the image to new resolution 
                     self.active_img_surface = transform.scale(self.active_img_surface, self.img_render_size)
-
+                    #updates slider text
                     self.resolution_slider.setText("Quality : " + str(self.resolution_slider.value) + "%")
-                    print(self.img_original_res, "->", self.new_img_res)
-                    self.img_information["New Image Resolution"] = str(self.new_img_res[0]) + "x" + str(
-                        self.new_img_res[1])
+                    print("Changed resolution from",self.img_original_res, "to", self.new_img_res)
+                    self.img_information["New Image Resolution"] = str(self.new_img_res[0]) + "x" + str(self.new_img_res[1])
+                # set dragging to false because left mouse button has been released
                 self.is_dragging_on_slider = False
 
-        # recalculate image size and position
+        # the following code is for dragging the image by right clicking and dragging
         if self.active_img_surface is not None:
-
             aspect_ratio = self.img_original_res[0] / self.img_original_res[1]
 
             new_width = min(self.screen.get_width() - pad, int((self.screen.get_height() - self.information_text_box_size - self.resolution_slider.size[1] - 2 * pad) * aspect_ratio)) * 0.9
@@ -159,24 +158,28 @@ class ImageQualityModifier:
         self.screen.fill(self.__bg_color)
 
         border_width = 10
+        #draw the image if a it has been loaded
         if self.active_img_surface is not None:
+            # if the expected image size does not match the size of image surface then resize the surface
             if (self.img_render_size[0] != self.active_img_surface.get_width()
                     or self.img_render_size[1] != self.active_img_surface.get_height()):
-                print("Rendering surface in", self.img_render_size)
                 self.active_img_surface = transform.scale(self.original_img_surface, self.img_render_size)
                 self.img_render_size = (self.active_img_surface.get_width(), self.active_img_surface.get_height())
                 self.active_img_surface = transform.scale(self.original_img_surface, self.new_img_res)
                 self.active_img_surface = transform.scale(self.active_img_surface, self.img_render_size)
-
-            draw.rect(self.screen, (0, 0, 0), rect=(
-                self.imgRenderPos[0] - border_width, self.imgRenderPos[1] - border_width,
-                self.img_render_size[0] + 2 * border_width, self.img_render_size[1] + 2 * border_width),
-                      border_radius=10)
+            #draw a border around image 
+            img_border = pygame.Rect(self.imgRenderPos[0] - border_width, self.imgRenderPos[1] - border_width, self.img_render_size[0] + 2 * border_width, self.img_render_size[1] + 2 * border_width,border_radius=10)
+            draw.rect(self.screen, (0, 0, 0), img_border)
+            #draw the image
             self.screen.blit(self.active_img_surface, self.imgRenderPos)
+        #draw slider
         self.resolution_slider.setText("Quality: " + str(self.resolution_slider.value) + "%")
         self.resolution_slider.draw(self.screen)
+        #draw save button
         self.save_btn.draw(self.screen)
+        #draw toast
         self.toast.draw(self.screen)
+        #draw overlaying text that contains information regarding the image
         self.draw_text()
 
     # used for loading img for first time
@@ -229,10 +232,12 @@ class ImageQualityModifier:
         render_area = (self.screen.get_width() - self.pad * 2, self.screen.get_height())
         for key, value in self.img_information.items():
             text = str(key) + " : " + str(value)
+            #Clip the text if it is too long
             if self.font.size(text)[0] > render_area[0]:
                 while self.font.size(text + "...")[0] > render_area[0]:
                     text = text[:-1]
                 text += "..."
+            #render the text
             self.screen.blit(self.font.render(text, True, self.__all_text_color), (self.pad, y))
             y += self.font.get_height()
         self.information_text_box_size = y
@@ -240,25 +245,28 @@ class ImageQualityModifier:
     def handle_event(self, event_data):
         if event_data.type == pygame.DROPFILE:
             self.load_img(event_data.dict["file"])
-        # checks if save button was pressed
+        
         elif event_data.type == pygame.MOUSEBUTTONDOWN:
             if event_data.dict["button"] == 1:
                 pos = event_data.dict["pos"]
+                # checks if save button was pressed
                 if self.save_btn.containsPoint(pos[0], pos[1]):
                     self.was_save_btn_pressed = True
             elif event_data.dict["button"] == 3:
+                # checks if user is draggin the mouse around
                 pygame.mouse.get_rel()
                 self.is_dragging = True
 
-        # Checks if save button was released
         elif event_data.type == pygame.MOUSEBUTTONUP:
             pos = event_data.dict["pos"]
+            # Checks if save button was released
             if self.was_save_btn_pressed and self.save_btn.containsPoint(pos[0], pos[1]):
                 self.save_img()
                 self.was_save_btn_pressed = False
 
             self.is_dragging = False
 
+        # checks if user is zooming
         elif event_data.type == pygame.MOUSEWHEEL:
             delta = event_data.dict["precise_y"]
             self.zoom += 0.5 * delta
@@ -275,13 +283,15 @@ class ImageQualityModifier:
         t1 = time.time_ns()
         stop = False
 
-        # the game loop
+        # the application loop, used for updating and rendering at a maximum of 60 fps
         while not stop:
+            #process events
             for e in event.get():
                 if e.type == pygame.QUIT:
                     stop = True
                 else:
                     self.handle_event(e)
+            # code to make sure the application runs at 60 frames per second
             t2 = time.time_ns()
             dt = t2 - t1
             if dt < min_frame_time:
@@ -293,9 +303,7 @@ class ImageQualityModifier:
 
 
 try:
-
     print("----------------------------Running ImageQualityModifier--------------------------------")
     ImageQualityModifier().loop()
-
 except Exception as e:
     print("Error occurred: " + str(e))

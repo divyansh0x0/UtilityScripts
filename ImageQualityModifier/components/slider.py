@@ -15,6 +15,7 @@ class Slider:
 
     # Set slider min and max values
     def setMinMaxValues(self, min_val, max_val):
+        
         if max_val < min_val:
             raise ValueError("max_val cannot be less than min_val")
         if max_val < 0 or min_val < 0:
