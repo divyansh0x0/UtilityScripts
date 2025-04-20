@@ -1,80 +1,51 @@
-Based on your `ImageQualityModifier` class and helper functions, here is a documentation draft in a format suitable for a Word document.
+# Image Quality Modifier
 
----
+The **Image Quality Modifier** app is a simple, efficient tool designed for adjusting JPEG image resolution and compression quality. This application provides a fast and convenient way to resize images without relying on complex software or online tools, making it especially helpful for tasks like mass online registrations where images must meet specific size requirements.
 
-# Documentation for Image Quality Modifier
+## Features
 
-## Project Overview
-The **Image Quality Modifier** application allows users to load, modify, and save images by adjusting their resolution and quality. Developed using Pygame, it provides an interactive graphical interface to scale images and preview size changes in real-time.
+- **Drag-and-Drop Loading**: Easily load images by dragging them onto the app interface.
+- **Real-Time Preview**: Use a slider to change image resolution and see the effects in the live preview.
+- **Zoom and Pan**: Use the scroll wheel to zoom and right-click + drag to pan across the image.
+- **Automatic Save Location**: Saved images are stored in the same folder with a "modified_" filename prefix.
 
----
 
-## Table of Contents
-1. Project Overview
-2. Main Class: ImageQualityModifier
-3. Helper Functions
-4. Components Overview
-5. Usage Instructions
+![ImageQualityModifierTest](ImageQualityModifierTest.png)
 
----
+## System Requirements
 
-### 1. Main Class: ImageQualityModifier
-The `ImageQualityModifier` class is responsible for initializing and managing the image modification application. It provides functionalities for loading images, adjusting quality, displaying real-time previews, and saving modified images.
+- **Python** 3.12.0 or above
+- **Pygame** 2.5.2
+- **Pillow** 11.0.0
 
-- **Attributes:**
-  - `screen`: Pygame display screen.
-  - `img_quality`: Image quality factor set by the slider.
-  - `imgRenderPos`: Position to render the image on the screen.
-  - `img_extension`: File extension of the loaded image.
-  - `drag_delta`: Tracks image dragging offset.
-  - `zoom`: Image zoom factor.
-  - **Buttons and UI Elements**:
-    - `save_btn`: Button to save modified images.
-    - `resolution_slider`: Slider to adjust image quality.
-    - `toast`: Toast message component to display notifications.
-    - `img_information`: Dictionary storing image metadata.
 
-- **Methods:**
-  - `__init__`: Initializes Pygame components, sets up the display, and creates UI elements.
-  - `update`: Updates UI elements' positions and resizes images based on user input.
-  - `save_img`: Saves the modified image to disk.
-  - `render`: Renders the UI, including image, buttons, and slider.
-  - `load_img(path)`: Loads an image from a specified path.
-  - `reload_img(path)`: Reloads an image, usually after a resolution change.
-  - `draw_text`: Draws image metadata information on the screen.
-  - `handle_event(event_data)`: Handles user input and interactions.
-  - `loop`: Main application loop that updates the display and processes events.
+## Installation
 
-### 2. Helper Functions
-Helper functions assist with tasks like file validation and formatting.
+1. Clone the repository from GitHub using Git:
 
-- **is_valid_img_path(im_path)**  
-  Checks if the image path is valid and whether the file is an acceptable image type.
+   ```bash
+   git clone https://github.com/divyansh0x0/csproject_2024_25.git
+   ```
 
-- **format_byte_count(size_bytes)**  
-  Converts a byte size into a human-readable format (e.g., KB, MB).
+2. Pygame and Pillow are the only required dependencies:
 
----
+   ```bash
+   pip install pygame==2.5.2
+   pip install pillow==11.0.0
+   ```
 
-### 3. Components Overview
+## Usage
 
-- **Button (from `components.button`)**  
-  Handles the creation of buttons, specifically the "Save" button used to save the modified image.
+1. Open a terminal and navigate to the `csproject_2024_25` directory.
+2. Run the app by typing:
 
-- **Slider (from `components.slider`)**  
-  Slider component allows users to adjust the quality of the image between 1 and 100%.
+   ```bash
+   python app.py
+   ```
 
-- **Toast (from `components.toast`)**  
-  Displays temporary messages to notify users about actions like dragging an image or saving completion.
+3. Load an image by dragging and dropping it onto the window.
+4. Adjust image quality with the slider.
+5. Save the modified image by clicking the save button.
 
----
-
-### 4. Usage Instructions
-1. **Run the Program**: Execute the script to open the Image Quality Modifier application.
-2. **Load an Image**: Drag and drop an image file into the application window.
-3. **Adjust Image Quality**: Use the slider to adjust image quality. The application shows a real-time preview.
-4. **Save the Modified Image**: Click the "Save" button to save the image with the new resolution and quality settings.
-
---- 
-
-Would you like any adjustments or additional sections? This can be converted to a Word document with these headings and explanations, and I can add any diagrams if needed.
+## Contribution
+This Image Quality Modifier app is a Computer Science project developed by Class XII students Divyansh, Arman, and Hashmita for the 2024-25 academic year.

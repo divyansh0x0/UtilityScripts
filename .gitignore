@@ -1,6 +1,0 @@
-.venv
-build
-dist
-ImageQualityModifier.spec
-ImageQualityModifier/build
-ImageQualityModifier/dist
