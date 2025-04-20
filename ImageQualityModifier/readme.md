@@ -46,6 +46,3 @@ The **Image Quality Modifier** app is a simple, efficient tool designed for adju
 3. Load an image by dragging and dropping it onto the window.
 4. Adjust image quality with the slider.
 5. Save the modified image by clicking the save button.
-
-## Contribution
-This Image Quality Modifier app is a Computer Science project developed by Class XII students Divyansh, Arman, and Hashmita for the 2024-25 academic year.
