@@ -3,3 +3,4 @@ build
 app.spec
 .idea
 .vscode
+.venv

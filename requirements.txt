@@ -1,0 +1,4 @@
+beautifulsoup4~=4.13.4
+pillow~=11.0.0
+pygame~=2.6.1
+auto-py-to-exe~=2.46.0
